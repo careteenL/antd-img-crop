@@ -5,7 +5,7 @@ An image cropper for Ant Design [Upload](https://ant.design/components/upload/).
 [![npm](https://img.shields.io/npm/v/antd-img-crop.svg?style=flat-square)](https://www.npmjs.com/package/antd-img-crop)
 [![npm](https://img.shields.io/npm/dt/antd-img-crop?style=flat-square)](https://www.npmtrends.com/antd-img-crop)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/antd-img-crop?style=flat-square)](https://bundlephobia.com/result?p=antd-img-crop)
-[![GitHub](https://img.shields.io/github/license/nanxiaobei/antd-img-crop?style=flat-square)](https://github.com/nanxiaobei/antd-img-crop/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/careteenL/antd-img-crop?style=flat-square)](https://github.com/careteenL/antd-img-crop/blob/master/LICENSE)
 
 English | [简体中文](./README.zh-CN.md)
 
@@ -13,16 +13,20 @@ English | [简体中文](./README.zh-CN.md)
 
 [Live demo](https://codesandbox.io/s/antd-img-crop-4qoom5p9x4)
 
+## Special
+
+> fork from [antd-img-crop@3.13.1](https://www.npmjs.com/package/antd-img-crop/v/3.13.1) to support [pull/76](https://github.com/nanxiaobei/antd-img-crop/pull/76)、[pull/90](https://github.com/nanxiaobei/antd-img-crop/pull/90)
+
 ## Install
 
 ```sh
-yarn add antd-img-crop
+yarn add @careteen/antd-img-crop
 ```
 
 ## Usage
 
 ```jsx harmony
-import ImgCrop from 'antd-img-crop';
+import ImgCrop from '@careteen/antd-img-crop';
 import { Upload } from 'antd';
 
 const Demo = () => (
@@ -66,7 +70,7 @@ import 'antd/es/slider/style';
 
 ## License
 
-[MIT License](https://github.com/nanxiaobei/antd-img-crop/blob/master/LICENSE) (c) [nanxiaobei](https://mrlee.me/)
+[MIT License](https://github.com/careteenL/antd-img-crop/blob/master/LICENSE) (c) [careteenL](https://mrlee.me/)
 
 [react-easy-crop]: https://github.com/ricardo-ch/react-easy-crop#props
-[existing props]: https://github.com/nanxiaobei/antd-img-crop/blob/master/src/index.jsx#L67-L83
+[existing props]: https://github.com/careteenL/antd-img-crop/blob/master/src/index.jsx#L67-L83
