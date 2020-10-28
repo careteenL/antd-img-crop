@@ -15,22 +15,22 @@ const _judgePic = (file, width, height) => { // 判断图片是否满足规定�
             resolve(true)
             return
           }
-          reject(false)
+          resolve(false)
         }
         img.onerror = err => {
-          reject(false)
+          resolve(false)
           console.error(err)
         }
       }
     } catch (e) {
-      reject(false)
+      resolve(false)
       console.error(e)
     }
   })
 };
 function App() {
   const maxSize = 10;
-  const width = 402;
+  const width = 402; // TODO: mod
   const height = 246;
   const props = {
     name: 'image',
@@ -65,17 +65,40 @@ function App() {
   };
   const beforeCrop = async (file) => {
     console.log(file, 'file crop')
-    if ((String(file.type).toLowerCase() === 'image/gif')) {
-      const flag = await _judgePic(file, width, height)
-      if (flag) {
-        return true
+    return new Promise(async (resolve, reject) => {
+      if ((String(file.type).toLowerCase() === 'image/gif')) {
+        const flag = await _judgePic(file, width, height)
+        if (flag) {
+          return resolve(true)
+        } else {
+          message.error(`请上传尺寸为${width}x${height}的gif`)
+          return resolve(false);
+        }
       } else {
-        message.error(`请上传尺寸为${width}x${height}的gif`)
-        return false;
+        return resolve(true)
       }
-    } else {
-      return true
-    }
+    })
+    // if ((String(file.type).toLowerCase() === 'image/gif')) {
+    //   try {
+    //     const flag = await _judgePic(file, width, height)
+    //     if (flag) {
+    //       return true
+    //       return Promise.resolve(true)
+    //     } else {
+    //       console.log('ssss')
+    //       message.error(`请上传尺寸为${width}x${height}的gif`)
+    //       return false
+    //       return Promise.resolve(false);
+    //     }
+    //   } catch (error) {
+    //     message.error(`请上传尺寸为${width}x${height}的gif`)
+    //     return false
+    //     return Promise.resolve(true)
+    //   }
+    // } else {
+    //   return true
+    //   return Promise.resolve(true)
+    // }
   }
   const onError = (error) => {
     console.log(error)

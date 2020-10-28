@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo, useRef, forwardRef } from 'react';
 import t from 'prop-types';
+import isPromise from 'is-promise';
 import Cropper from 'react-easy-crop';
 import LocaleReceiver from 'antd/es/locale-provider/LocaleReceiver';
 import Modal from 'antd/es/modal';
@@ -158,11 +159,25 @@ const ImgCrop = forwardRef((props, ref) => {
         ...restUploadProps,
         accept: accept || 'image/*',
         beforeUpload: (file, fileList) =>
-          new Promise((resolve, reject) => {
+          new Promise(async (resolve, reject) => {
             const { type } = file;
-            if (beforeCrop && !beforeCrop(file, fileList)) {
-              reject();
-              return;
+            // if (beforeCrop && !beforeCrop(file, fileList)) {
+            //   reject();
+            //   return;
+            // }
+            if (beforeCrop) {
+              const res = beforeCrop(file, fileList)
+              if (isPromise(res)) { // 处理promise
+                const flag = await res
+                if (!flag) {
+                  reject();
+                  return;
+                }
+              }
+              if (!beforeCrop(file, fileList)) { // 处理普通函数
+                reject();
+                return;
+              }
             }
 
             fileRef.current = file;
@@ -401,7 +416,7 @@ ImgCrop.propTypes = {
   modalOk: t.string,
   modalCancel: t.string,
 
-  beforeCrop: t.func,
+  beforeCrop: t.any,
   onError: t.func,
   cropperProps: t.object,
 

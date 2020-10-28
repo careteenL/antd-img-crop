@@ -1,6 +1,6 @@
 {
   "name": "@careteen/antd-img-crop",
-  "version": "3.14.0",
+  "version": "3.14.1",
   "description": "An image cropper for Ant Design Upload",
   "keywords": [
     "react",
@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.12.0",
+    "is-promise": "^4.0.0",
     "react-easy-crop": "^3.2.1"
   },
   "devDependencies": {
