@@ -416,7 +416,7 @@ ImgCrop.propTypes = {
   modalOk: t.string,
   modalCancel: t.string,
 
-  beforeCrop: t.any,
+  beforeCrop: t.func,
   onError: t.func,
   cropperProps: t.object,
 
