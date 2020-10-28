@@ -25,7 +25,8 @@
     "index.d.ts"
   ],
   "scripts": {
-    "build": "rimraf dist && rollup -c"
+    "build": "rimraf dist && rollup -c",
+    "deploy": "npm run build && npm publish --access=public"
   },
   "peerDependencies": {
     "antd": "^4.0.0",
