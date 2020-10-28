@@ -9,6 +9,7 @@ export interface ImgCropProps {
 
   zoom?: boolean;
   rotate?: boolean;
+  gifCrop?: boolean;
   minZoom?: number;
   maxZoom?: number;
 

@@ -42,6 +42,7 @@ const Demo = () => (
 | quality      | `number`             | `0.4`          | Image quality, `0 ~ 1`                                                |
 | zoom         | `boolean`            | `true`         | Enable zoom for image                                                 |
 | rotate       | `boolean`            | `false`        | Enable rotate for image                                               |
+| gifCrop      | `boolean`            | `false`        | Enable crop gif                                                       |
 | minZoom      | `number`             | `1`            | Minimum zoom factor                                                   |
 | maxZoom      | `number`             | `3`            | Maximum zoom factor                                                   |
 | modalTitle   | `string`             | `'Edit image'` | Title of modal                                                        |

@@ -42,6 +42,7 @@ const Demo = () => (
 | quality      | `number`             | `0.4`        | 图片质量，`0 ~ 1`                                      |
 | zoom         | `boolean`            | `true`       | 启用图片缩放                                           |
 | rotate       | `boolean`            | `false`      | 启用图片旋转                                           |
+| rotate       | `boolean`            | `false`      | 启用裁剪gif                                           |
 | minZoom      | `number`             | `1`          | 最小缩放倍数                                           |
 | maxZoom      | `number`             | `3`          | 最大缩放倍数                                           |
 | modalTitle   | `string`             | `'编辑图片'` | 弹窗标题                                               |

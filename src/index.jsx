@@ -114,6 +114,7 @@ const ImgCrop = forwardRef((props, ref) => {
 
     zoom,
     rotate,
+    gifCrop,
     minZoom,
     maxZoom,
 
@@ -158,6 +159,7 @@ const ImgCrop = forwardRef((props, ref) => {
         accept: accept || 'image/*',
         beforeUpload: (file, fileList) =>
           new Promise((resolve, reject) => {
+            const { type } = file;
             if (beforeCrop && !beforeCrop(file, fileList)) {
               reject();
               return;
@@ -166,6 +168,11 @@ const ImgCrop = forwardRef((props, ref) => {
             fileRef.current = file;
             resolveRef.current = resolve;
             rejectRef.current = reject;
+
+            if ((String(type).toLowerCase() === 'image/gif') && !gifCrop) { // gif 跳过裁切
+              beforeUploadChild(file)
+              return;
+            }
 
             const reader = new FileReader();
             reader.addEventListener('load', () => {
@@ -219,6 +226,33 @@ const ImgCrop = forwardRef((props, ref) => {
     return obj;
   }, [modalCancel, modalOk, modalWidth]);
 
+  const beforeUploadChild = async (blob) => { // 执行antd upload的 beforeUpload
+    let newFile = new File([blob], name, { type });
+    newFile.uid = uid;
+
+    if (typeof beforeUploadRef.current !== 'function') return resolveRef.current(newFile);
+
+    const res = beforeUploadRef.current(newFile, [newFile]);
+
+    if (typeof res !== 'boolean' && !res) {
+      console.error('beforeUpload must return a boolean or Promise');
+      return;
+    }
+
+    if (res === true) return resolveRef.current(newFile);
+    if (res === false) return rejectRef.current('not upload');
+    if (res && typeof res.then === 'function') {
+      try {
+        const passedFile = await res;
+        const type = Object.prototype.toString.call(passedFile);
+        if (type === '[object File]' || type === '[object Blob]') newFile = passedFile;
+        resolveRef.current(newFile);
+      } catch (err) {
+        rejectRef.current(err);
+      }
+    }
+  }
+
   const onClose = useCallback(() => {
     setSrc('');
     setZoomVal(1);
@@ -262,32 +296,7 @@ const ImgCrop = forwardRef((props, ref) => {
       // get the new image
       const { type, name, uid } = fileRef.current;
       canvas.toBlob(
-        async (blob) => {
-          let newFile = new File([blob], name, { type });
-          newFile.uid = uid;
-  
-          if (typeof beforeUploadRef.current !== 'function') return resolveRef.current(newFile);
-  
-          const res = beforeUploadRef.current(newFile, [newFile]);
-  
-          if (typeof res !== 'boolean' && !res) {
-            console.error('beforeUpload must return a boolean or Promise');
-            return;
-          }
-  
-          if (res === true) return resolveRef.current(newFile);
-          if (res === false) return rejectRef.current('not upload');
-          if (res && typeof res.then === 'function') {
-            try {
-              const passedFile = await res;
-              const type = Object.prototype.toString.call(passedFile);
-              if (type === '[object File]' || type === '[object Blob]') newFile = passedFile;
-              resolveRef.current(newFile);
-            } catch (err) {
-              rejectRef.current(err);
-            }
-          }
-        },
+        beforeUploadChild,
         type,
         quality
       );
@@ -382,6 +391,7 @@ ImgCrop.propTypes = {
 
   zoom: t.bool,
   rotate: t.bool,
+  gifCrop: t.bool,
   minZoom: t.number,
   maxZoom: t.number,
 
@@ -405,6 +415,7 @@ ImgCrop.defaultProps = {
 
   zoom: true,
   rotate: false,
+  gifCrop: false,
   minZoom: 1,
   maxZoom: 3,
 };
